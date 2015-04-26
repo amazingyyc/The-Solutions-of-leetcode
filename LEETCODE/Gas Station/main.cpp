@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int canCompleteCircuit2(vector<int> &gas, vector<int> &cost) 
+{
+	int total = 0;
+	int j = -1;
+	for (int i = 0, sum = 0; i < gas.size(); ++i) 
+	{
+		sum += gas[i] - cost[i];
+		total += gas[i] - cost[i];
+
+		if (sum < 0) 
+		{
+			j = i;
+			sum = 0;
+		}
+	}
+	return total >= 0 ? j + 1 : -1;
+}
+
+int canCompleteCircuit(vector<int> &gas, vector<int> &cost)
+{
+	int N = gas.size();
+
+	int index = 0;
+
+	while (index < N)
+	{
+		//index表示从当前index开始进行判断s
+		int sum = 0;
+		int i = index;
+
+		while (1)
+		{
+			int ram = i%N;
+			sum = sum + gas[ram] - cost[ram];
+
+			if (0 <= sum)
+			{
+				if ((i + 1) % N == index)
+					return index;
+				else
+					i++;
+			}
+			else
+			{
+				index = i + 1;
+
+				break;
+			}
+		}
+	}
+
+	return -1;
+}
+
+int main()
+{
+	vector<int> gas;
+	gas.push_back(1);
+	gas.push_back(1);
+	gas.push_back(1);
+	gas.push_back(10);
+
+	vector<int> cost;
+	cost.push_back(2);
+	cost.push_back(2);
+	cost.push_back(2);
+	cost.push_back(2);
+
+	int index1 = canCompleteCircuit2(gas, cost);
+	int index2 = canCompleteCircuit(gas, cost);
+
+	return 1;
+}
